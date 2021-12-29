@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
         <title>NHL Standings Tracker</title>
         <link rel="stylesheet" href="styles.css">
     </head>
@@ -9,12 +10,37 @@
         <h1>NHL Points & Standings Tracking - 2021-22</h1>
         <p>Points and Standings Tracking for the 2021-2022 NHL Season</p>
 
-        <h3>Points To Date</h3>
-        <p>Filter by: conference, division, & number of games played</p>
+        <div class="central-div" id="graphDiv">
+            <h3>Points To Date</h3>
+            <p>Filter by: conference, division, & number of games played</p>
+            <form> <b>Conference</b> <br>
+                <input type="radio" id="all" name="conference_filter" value="All">
+                <label for="all">All</label><br>
+                <input type="radio" id="west" name="conference_filter" value="Western">
+                <label for="west">Western</label><br>
+                <input type="radio" id="east" name="conference_filter" value="Eastern">
+                <label for="east">Eastern</label><br>
+                <input type="submit" value="Submit Conference Filter">
+            </form>
+
+        </div>
 
         <h3>Standings</h3>
-        <p>Display: current or projected pace</p>
-        <p>Display: Conference or Division</p>
+        <form> <b>Display: Current or Projected Points</b> <br>
+            <input type="radio" id="current" name="pace_filter" value="current">
+            <label for="current">Current</label><br>
+            <input type="radio" id="projected" name="pace_filter" value="projected">
+            <label for="projected">Projected</label><br>
+            <input type="submit" value="Submit Points Pace Filter">
+        </form>
+        <br>
+        <form> <b>Display: Conference or Division</b> <br>
+            <input type="radio" id="conf" name="standings_filter" value="conference">
+            <label for="conf">Conference</label><br>
+            <input type="radio" id="divis" name="standings_filter" value="division">
+            <label for="divis">Division</label><br>
+            <input type="submit" value="Submit Standings Filter">
+        </form>
 
         <h3>Playoff Picture</h3>
         <p>Link out to separate page to display bracket</p>
