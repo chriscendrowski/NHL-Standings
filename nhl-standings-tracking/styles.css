@@ -1,0 +1,8 @@
+@font-face {
+    font-family: Calisto; src: url('CALIST.ttf');
+}
+
+* {
+    text-align: center;
+    font-family: Calisto, sans-serif;
+}
