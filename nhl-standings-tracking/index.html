@@ -2,15 +2,15 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <script src="https://d3js.org/d3.v7.min.js"></script>
         <title>NHL Standings Tracker</title>
         <link rel="stylesheet" href="styles.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     </head>
     <body>
         <h1>NHL Points & Standings Tracking - 2021-22</h1>
         <p>Points and Standings Tracking for the 2021-2022 NHL Season</p>
 
-        <div class="central-div" id="graphDiv">
+        <div class="container">
             <h3>Points To Date</h3>
             <p>Filter by: conference, division, & number of games played</p>
             <form> <b>Conference</b> <br>
@@ -22,6 +22,8 @@
                 <label for="east">Eastern</label><br>
                 <input type="submit" value="Submit Conference Filter">
             </form>
+
+            <canvas id="myChart"></canvas>
 
         </div>
 
@@ -44,5 +46,78 @@
 
         <h3>Playoff Picture</h3>
         <p>Link out to separate page to display bracket</p>
+
+        <script>
+
+            const xlabels = [];
+            const ypoints = [];
+            const teamColors = [];
+            chartIt();
+
+            async function getData() {
+                const response = await fetch('teams_points_df_updated_12-27-21.csv');
+                const data = await response.text();
+                //console.log(data);
+
+                const table = data.split('\n').slice(1);
+                table.forEach(row => {
+                    //const columns = row.split(',');
+                    const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+                    const team = columns[1];
+                    xlabels.push(team);
+                    const points = columns[10];
+                    ypoints.push(points);
+                    const colors = columns[columns.length - 1];
+                    teamColors.push(colors);
+                })
+            }
+
+            async function chartIt() {
+                await getData();
+
+                //clean arrays for team colors
+                for (var i = 0; i < teamColors.length; i++) {
+                    teamColors[i] = "rgba".concat(teamColors[i].replace(/"/g, ""));
+                }
+
+                const myChart = document.getElementById('myChart').getContext('2d');
+                const pointsChart = new Chart(myChart, {
+                    type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+                    data:{
+                        labels: xlabels,
+                        datasets:[{
+                            label:'Points',
+                            data: ypoints,
+                            backgroundColor:teamColors,
+                            borderWidth:1,
+                            borderColor:'#777',
+                            hoverBorderWidth:3,
+                            hoverBorderColor:'#000'
+                        }]
+                    },
+                    options:{
+                        indexAxis:'y',
+                        layout:{
+                            padding:{
+                                left:50,
+                                right:50,
+                                top:50,
+                                bottom:50
+                            }
+                        },
+                        plugins:{
+                            indexAxis:'y',
+                            title:{
+                                display: true,
+                                text:'NHL Teams 2021-22 Points'
+                            },
+                            legend:{
+                                display: false
+                            },
+                        }
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
