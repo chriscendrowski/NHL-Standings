@@ -52,6 +52,10 @@
             const xlabels = [];
             const ypoints = [];
             const teamColors = [];
+            const teamWins = [];
+            const teamLosses = [];
+            const teamOTLosses = [];
+            const teamPointsPerc = [];
             chartIt();
 
             async function getData() {
@@ -61,7 +65,6 @@
 
                 const table = data.split('\n').slice(1);
                 table.forEach(row => {
-                    //const columns = row.split(',');
                     const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
                     const team = columns[1];
                     xlabels.push(team);
@@ -69,6 +72,14 @@
                     ypoints.push(points);
                     const colors = columns[columns.length - 1];
                     teamColors.push(colors);
+                    const wins = columns[26];
+                    teamWins.push(wins);
+                    const losses = columns[6];
+                    teamLosses.push(losses);
+                    const otLosses = columns[8];
+                    teamOTLosses.push(otLosses);
+                    const pointsPerc = columns[11];
+                    teamPointsPerc.push(pointsPerc);
                 })
             }
 
@@ -114,6 +125,15 @@
                             legend:{
                                 display: false
                             },
+                            tooltip:{
+                                callbacks: {
+                                    afterBody: function(tooltipItem, data) {
+                                        //console.log(tooltipItem);
+                                        return( 'W: '+teamWins[tooltipItem[0].dataIndex]+'\n'+'L: '+teamLosses[tooltipItem[0].dataIndex]+'\n'+'OTL: '+teamOTLosses[tooltipItem[0].dataIndex]+'\n'+'Pts %: '+Math.round(((teamPointsPerc[tooltipItem[0].dataIndex])*100))+'%');
+                                    }
+
+                                }
+                            }
                         }
                     }
                 });
