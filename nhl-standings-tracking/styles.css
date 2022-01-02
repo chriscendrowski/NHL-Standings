@@ -4,6 +4,67 @@
 
 * {
     text-align: center;
-    font-family: Calisto, sans-serif;
+    font-family: sans-serif;
 }
+
+/*Top Header*/
+.header {
+    overflow: auto;
+}
+.header img {
+    width: auto;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.header h1 {
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+/*Points graph header and filter*/
+
+.container h2 {
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+#conferenceFilter p {
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+#conferenceFilter input[type="radio"]{
+    margin-top: 0px;
+}
+
+#conferenceFilter input[type="submit"]{
+    border-radius: 50px;
+    color: white;
+    background-color: black;
+    margin-left: 8px;
+}
+
+.standingsTable {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.standingsTable table{
+
+}
+
+#standingsTableWest{
+    float: left;
+    width: 50%;
+
+}
+
+#standingsTableEast{
+    float: left;
+    width: 50%;
+}
+
 
