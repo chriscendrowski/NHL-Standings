@@ -45,26 +45,44 @@
     margin-left: 8px;
 }
 
-.standingsTable {
-    margin-top: 30px;
-    margin-bottom: 50px;
-    margin-left: auto;
-    margin-right: auto;
-}
+/* ---- Standings Tables ----  */
 
-.standingsTable table{
 
-}
-
-#standingsTableWest{
+.standingsTableWest, .standingsTableEast{
+    width: 45%;
     float: left;
-    width: 50%;
-
+    align-content: center;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
-#standingsTableEast{
-    float: left;
-    width: 50%;
+.standingsTableEast{
+    float: right;
 }
+
+.standingsTableWest {
+    padding-left: 30px;
+}
+
+.standingsTableWest table, th, td{
+    text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.standingsTableWest table, th, td{
+    padding: 10px 20px 10px;
+}
+
+.standingsTableEast table, th, td{
+    text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.standingsTableEast table, th, td{
+    padding: 10px 20px 10px;
+}
+
 
 

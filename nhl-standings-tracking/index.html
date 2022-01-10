@@ -47,29 +47,28 @@
             <input type="submit" value="Submit Standings Filter">
         </form>
 
-        <div class="standingsTable">
-            <table id="standingsTableWest">
+        <div class="standingsTableWest">
+            <table id="westStandings">
                 <tr>
                     <th>Team</th>
                     <th>Points (Current)</th>
                     <th>Points (Projected Pace)</th>
+                    <th>Points Percentage</th>
                     <!-- -->
                 </tr>
             </table>
         </div>
-        <div class="standingsTable">
-            <table id="standingsTableEast">
+        <div class="standingsTableEast">
+            <table id="eastStandings">
                 <tr>
                     <th>Team</th>
                     <th>Points (Current)</th>
                     <th>Points (Projected Pace)</th>
+                    <th>Points Percentage</th>
                     <!-- -->
                 </tr>
             </table>
         </div>
-
-        <h3>Playoff Picture</h3>
-        <p>Link out to separate page to display bracket</p>
 
         <script>
 
@@ -77,6 +76,8 @@
             const myChart = document.getElementById('myChart').getContext('2d');
 
             chartIt();
+            createWestStandings();
+            createEastStandings();
 
             //fill out standingsTable
 
@@ -93,6 +94,8 @@
                 const teamOTLosses = [];
                 const teamPointsPerc = [];
                 const teamConference = [];
+                const teamDivision = [];
+                const teamTotalPointsPace = [];
 
                 const table = data.split('\n').slice(1);
                 table.forEach(row => {
@@ -113,8 +116,12 @@
                     teamPointsPerc.push(pointsPerc);
                     const conf = columns[columns.length - 3];
                     teamConference.push(conf);
+                    const divis = columns[columns.length - 2];
+                    teamDivision.push(divis);
+                    const pointsPace = columns[columns.length - 4];
+                    teamTotalPointsPace.push(pointsPace);
                 })
-                return {xlabels, ypoints, teamColors, teamWins, teamLosses, teamOTLosses, teamPointsPerc, teamConference};
+                return {xlabels, ypoints, teamColors, teamWins, teamLosses, teamOTLosses, teamPointsPerc, teamConference, teamDivision, teamTotalPointsPace};
             }
 
             //CREATE ORIGINAL CHART WITH ALL TEAMS
@@ -253,6 +260,47 @@
                     });
                 }
                 return false;
+            }
+
+            //FILL IN STANDINGS TABLES
+
+            async function createWestStandings(){
+                const table = document.getElementById("westStandings");
+                const tableData = await getData();
+
+                for(var i = 0; i < tableData.teamConference.length; i++){
+                    if(tableData.teamConference[i] == 'Western'){
+                        let row = table.insertRow();
+                        let teamName = row.insertCell(0);
+                        teamName.innerHTML = tableData.xlabels[i];
+                        let teamPoints = row.insertCell(1);
+                        teamPoints.innerHTML = tableData.ypoints[i];
+                        let teamPointsPace = row.insertCell(2);
+                        teamPointsPace.innerHTML = tableData.teamTotalPointsPace[i];
+                        let teamPointsPercentage = row.insertCell(3);
+                        teamPointsPercentage.innerHTML = Math.round(tableData.teamPointsPerc[i]*100)+'%';
+                    }
+                }
+            }
+
+            async function createEastStandings(){
+                const table = document.getElementById("eastStandings");
+                const tableData = await getData();
+
+                for(var i = 0; i < tableData.teamConference.length; i++){
+                    if(tableData.teamConference[i] == 'Eastern'){
+                        let row = table.insertRow();
+                        let teamName = row.insertCell(0);
+                        teamName.innerHTML = tableData.xlabels[i];
+                        let teamPoints = row.insertCell(1);
+                        teamPoints.innerHTML = tableData.ypoints[i];
+                        let teamPointsPace = row.insertCell(2);
+                        teamPointsPace.innerHTML = tableData.teamTotalPointsPace[i];
+                        let teamPointsPercentage = row.insertCell(3);
+                        teamPointsPercentage.innerHTML = Math.round(tableData.teamPointsPerc[i]*100)+'%';
+                    }
+
+                }
             }
 
         </script>
